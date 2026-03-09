@@ -2,6 +2,8 @@
 
 Provides a DHCP service to automatically configure an O-RUs network settings, e.g. IP, subnet, gateway, and VLANs, during startup via M-Plane.
 
+# Launch the DHCPv4 Docker container
+`docker compose -f docker-compose.dhcp.yml up`
 
 ## License
 
