@@ -7,7 +7,7 @@ set -eu
 
 # Generate DHCP Option 43 TLV payloads (RU2 and legacy).
 # requires environment variables RU_CONTROLLER_IP_ADDRESS, RU_CONTROLLER_FQDN, CALLHOME_SSH_OR_TLS
-# exports the payloads to be availabe for entrypoint.sh, which configures the DHCP server
+# exports the payloads to be available for entrypoint.sh, which configures the DHCP server
 
 # converts decimal number into hex
 dec_to_hex() {
