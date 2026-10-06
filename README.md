@@ -12,6 +12,17 @@ Dockerised [ISC Kea](https://www.isc.org/kea/) DHCPv4 server for O-RAN radio uni
 
 Part of the [OCUDU project](https://ocudu.org), governed under the Linux Foundation.
 
+## Overview
+
+This service is a single-purpose DHCPv4 server for an O-RAN fronthaul network. It does three things:
+
+1. **Leases IPv4 addresses** to devices on a managed subnet from a configurable dynamic pool, plus a static reservation that always maps a known MAC address to a fixed IP.
+2. **Provides standard DHCP configuration options,**  including the default gateway, DNS server, domain name, and NTP server, to clients on the subnet.
+3. **Bootstraps O-RAN radio units (O-RUs)** by recognising their DHCP Option 60 (Vendor Class Identifier) and replying with a matching Option 43 payload, encoded as O-RAN TLV hex. The server supports two O-RU variants: current RU2 units (Option 60 `o-ran-ru2/`) receive the controller's IP address, FQDN, and call-home transport; legacy units (Option 60 `o-ran-ru/`) receive the controller's IP address and FQDN only (no call-home transport). Either way, this is what lets a freshly powered O-RU discover and connect back to its M-Plane management controller.
+
+The server is ISC Kea's `kea-dhcp4` daemon running in an Alpine container. All behaviour is driven by a single environment file (`dhcp_server.env`) that is read when the container starts; a shell entrypoint turns those variables into Kea's JSON config and the Option 43 hex payloads before launching the daemon. The lease store is Kea's flat-file memfile backend — there is no database.
+
+
 ## Quick start
 
 ```bash
@@ -64,7 +75,7 @@ O-RAN uses Option 43 to pass M-Plane bootstrap parameters to radio units as TLV 
 
 ## Configuration
 
-All configuration lives in `ocudu_dhcp/server/dhcp_server.env`. Values are baked into the image at build time — there is no runtime override without rebuilding.
+All configuration lives in `ocudu_dhcp/server/dhcp_server.env`. This file is baked into the image at build time (copied in by the Dockerfile) and read by `entrypoint.sh` at container start, which generates the Kea config from it. Because the defaults are baked in and the compose file wires up no runtime override (no bind mount or `environment:` block), changing these values means editing `dhcp_server.env` and rebuilding the image.
 
 ### Network and leases
 
