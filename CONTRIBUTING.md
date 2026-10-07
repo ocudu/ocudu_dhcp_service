@@ -9,6 +9,8 @@ Welcome! We're glad you're interested in contributing to the OCUDU DHCP Service.
 
 The project accepts contributions via GitLab merge requests. For broader OCUDU contribution guidance, see the [Developer Guide](https://docs.ocudu.org/dev_guide/).
 
+By participating, you are expected to follow our [Code of Conduct](./CODE_OF_CONDUCT.md).
+
 ## Getting started
 
 1. Fork the repository on GitLab.
@@ -23,7 +25,7 @@ The project accepts contributions via GitLab merge requests. For broader OCUDU c
 - One logical change per MR.
 - Shell scripts pass [shellcheck](https://www.shellcheck.net/) without warnings.
 - YAML passes yamllint (CI runs this on MR).
-- SPDX/REUSE headers present on every file.
+- SPDX/REUSE headers present on every file. New files use `SPDX-FileCopyrightText: Copyright (C) <year> OCUDU contributors`; files derived from existing SRS-authored code keep the original Software Radio Systems Limited line and add the OCUDU contributors line. If your organization is contributing copyrightable work for the first time, add it to [`CONTRIBUTORS.md`](./CONTRIBUTORS.md) (alphabetical).
 
 ## Development setup
 
